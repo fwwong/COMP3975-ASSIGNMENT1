@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-primary mb-3 p-3" data-bs-theme="dark">
   <div class="container-fluid">
 
-    <a class="home p-3" href="index.php">
+    <a class="home p-3" href="/index.php">
     <h2>
     <svg xmlns="http://www.w3.org/2000/svg"     
     width="30px" height="30px" 
@@ -22,7 +22,7 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Home
+          <a class="nav-link active" href="/index.php">Home
             <span class="visually-hidden"></span>
           </a>
         </li>

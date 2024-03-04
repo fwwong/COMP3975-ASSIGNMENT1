@@ -1,10 +1,21 @@
+<!-- Create a session -->
+<?php 
+session_start(); 
+//if user already log in send them to the home page
+if(isset($_SESSION['username'])){
+    header("Location: ../member/welcome.php");
+    exit;
+}
+require_once "include/_config.php";
+
+?>  
 <!-- LOGIN FORM -->
 <form>
  <h1>Login</h1>
   <div class="mb-3">
     <label for="email" class="form-label">Email address / Username</label>
     <input type="login" class="form-control" id="login">
-    <div id="new_account" class="form-text"><a href="../forms/new_account.php">No account? Create one today!</a></div>
+    <div id="newAccount" class="form-text"><a href="../forms/new_account.php">No account? Create one today!</a></div>
   </div>
   <div class="mb-3">
     <label for="password" class="form-label">Password</label>
