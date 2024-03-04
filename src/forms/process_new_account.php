@@ -1,23 +1,28 @@
 <?php
+require_once "../bank.php"; 
 
-$dbPath = '../../bank.sqlite';
+$dbPath = '../bank.sqlite';
 
-if (isset($_POST['create'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create'])) {
+    // Create a Bank instance
+    $bank = new Bank($dbPath);
 
-    include "../../create_db.php";
-    require_once $_SERVER['DOCUMENT_ROOT'] . '../../bank.php';
+    // Get form data
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
 
-    if (isset($_POST['username'], $_POST['password'], $_POST['first_name'], $_POST['last_name'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-
-        $bank = new Bank($dbPath);
-        
-        $bank->addUser($username, $password, $first_name, $last_name);
-    } else {
+    // Validate form data
+    if (empty($username) || empty($password) || empty($first_name) || empty($last_name)) {
         echo "All fields are required.";
+    } else {
+        // Add user using Bank class method
+        if ($bank->addUser($username, $password, $first_name, $last_name)) {
+            echo "User added successfully.";
+        } else {
+            echo "Error adding user.";
+        }
     }
 }
 ?>
