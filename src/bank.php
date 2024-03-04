@@ -6,6 +6,31 @@ class Bank{
         $this->dbPath = $dbPath;
     }
     
+    // Add a user to the database
+    public function addUser($username, $password, $first_name, $last_name) {
+        $conn = new SQLite3($this->dbPath);
+        
+        $sql = "INSERT INTO users (username, password, first_name, last_name, account_type) VALUES (?, ?, ?, ?, 'user', 0, CURRENT_TIMESTAMP)";
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->bindValue(1, $username, SQLITE3_TEXT);
+        $stmt->bindValue(2, $password, SQLITE3_TEXT);
+        $stmt->bindValue(3, $first_name, SQLITE3_TEXT);
+        $stmt->bindValue(4, $last_name, SQLITE3_TEXT);
+
+        if ($username == "" || $password == "" || $first_name == "" || $last_name == "") {
+            return false;
+        }
+        
+        if (!$stmt->execute()) {
+            error_log('SQLite execute() failed: ' . $conn->lastErrorMsg());
+            return false;
+        }
+        
+        $conn->close();
+        return true;
+    }
+
     // Add a transaction
     public function addTransaction($date, $vender, $spending, $deposit, $budget, $category) {
         $conn = new SQLite3($this->dbPath);
