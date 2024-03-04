@@ -7,12 +7,12 @@
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
   <div class="mb-3 row">
     <div class="col">
-      <label for="first_name" class="form-label">First Name</label>
-      <input type="text" class="form-control">
+      <label for="first_name" class="form-label" >First Name</label>
+      <input type="text" name="first_name" class="form-control">
     </div>
     <div class="col">
       <label for="last_Name" class="form-label">Last Name</label>
-      <input type="text" class="form-control">
+      <input type="text" name="last_name" class="form-control">
     </div>
   </div>
     <div class="mb-3">
@@ -20,7 +20,7 @@
         <input type="text" name="username" class="form-control ">
     </div>
   <div class="mb-3">
-    <label for="password" class="form-label">Password</label>
+    <label for="password" class="form-label" name="password">Password</label>
     <input type="password" name="password" class="form-control ">
             
   </div>
