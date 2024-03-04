@@ -8,3 +8,5 @@
     <link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css">
 </head>
 <body>
+<div class="container m-5">
+    <?php include("_navbar.php") ?>
