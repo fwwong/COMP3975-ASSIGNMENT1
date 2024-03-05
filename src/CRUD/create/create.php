@@ -38,16 +38,8 @@ session_start(); // Start the session at the beginning
                     <label for="Deposit">Deposit</label>
                     <input type="number" step="0.01" name="Deposit" id="Deposit" class="form-control" />
                 </div>
-                <!-- <div class="form-group">
-                    <label for="Budget">Budget</label>
-                    <input type="number" step="0.01" name="Budget" id="Budget" class="form-control" />
-                </div> -->
-                <!-- <div class="form-group">
-                    <label for="Category">Category</label>
-                    <input type="text" name="Category" id="Category" class="form-control" maxlength="100" />
-                </div> -->
                 <div class="form-group">
-                    <a href="../../index.php" class="btn btn-primary">&lt;&lt; Back</a>
+                    <a href="../../members/user_screen.php" class="btn btn-primary">&lt;&lt; Back</a>
                     &nbsp;&nbsp;&nbsp;
                     <input type="submit" value="Create Transaction" name="createTransaction" class="btn btn-success" />
                 </div>

@@ -20,7 +20,7 @@ session_start();
                 <div class="card-body">
                     <h5 class="card-title">Transactions</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Upload CSV file and Create</h6>
-                    <a href="/user_screen.php" class="btn btn-primary">Transactions</a>
+                    <a href="./user_screen.php" class="btn btn-primary">Transactions</a>
                 </div>
             </div>
         </div>

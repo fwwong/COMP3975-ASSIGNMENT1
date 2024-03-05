@@ -5,8 +5,8 @@ session_start();
 
 if (isset($_POST['updateBucket'])) {
     $BucketId = filter_input(INPUT_POST, 'BucketId', FILTER_SANITIZE_NUMBER_INT);
-    $Category = filter_input(INPUT_POST, 'Category', FILTER_SANITIZE_STRING);
-    $Vender = filter_input(INPUT_POST, 'Vender', FILTER_SANITIZE_STRING);
+    $Category = filter_input(INPUT_POST, 'Category');
+    $Vender = filter_input(INPUT_POST, 'Vender');
 
     if (!$BucketId) {
         $_SESSION['errors'] = ['Invalid bucket ID.'];
@@ -17,7 +17,7 @@ if (isset($_POST['updateBucket'])) {
     $updateResult = $bank->updateBucket($BucketId, $Category, $Vender);
 
     if ($updateResult === true) {
-        header('Location: ../../index.php'); // Adjust the redirect location as needed
+        header('Location: ../../members/user_screen.php'); // Adjust the redirect location as needed
         exit;
     } else {
         $_SESSION['errors'] = ['Update failed: ' . $updateResult];

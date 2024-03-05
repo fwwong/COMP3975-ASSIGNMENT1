@@ -1,4 +1,4 @@
-
+<?php include("/include/_database.php")?>
 
 <!DOCTYPE html>
 <html lang="en">

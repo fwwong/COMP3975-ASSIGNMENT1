@@ -31,9 +31,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="../members/user_screen.php">Features</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
         </li>
         <li class="nav-item">
@@ -41,7 +41,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Contact</a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <form class="d-flex">
             <input class="form-control" type="search" placeholder="Search">

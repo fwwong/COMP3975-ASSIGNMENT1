@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
         echo "Transaction successfully deleted.";
         // Provide a back button
         echo "<br>";
-        echo "<a href='/'>Go Back</a>"; 
+        echo "<a href='../../members/user_screen.php'>Go Back</a>"; 
         exit;
     } else {
         echo "Failed to delete the transaction.";

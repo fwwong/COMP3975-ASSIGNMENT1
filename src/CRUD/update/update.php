@@ -1,7 +1,7 @@
 <?php
 // Include the Bank class
 include("../../Bank.php");
-$bank = new Bank('../../bank.sqlite');
+$bank = new Bank('../../members/bank.sqlite');
 
 // Retrieve transaction details (mock-up, replace with actual retrieval code)
 $transactionId = isset($_GET['id']) ? $_GET['id'] : null;
@@ -31,7 +31,7 @@ if (!empty($_SESSION['errors'])) {
 }
 ?>
 
-<form action="/CRUD/update/process_buckets_update.php" method="post">
+<form action="/CRUD/update/process_transaction_update.php" method="post">
     <input type="hidden" name="TransactionId" value="<?php echo htmlspecialchars($transactionId); ?>">
 
     <!-- Form fields for transaction details -->

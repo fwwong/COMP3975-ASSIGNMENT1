@@ -1,7 +1,7 @@
 <?php
 include("../../bank.php"); // Update the include path to where your BankDatabase class is defined
 
-$dbPath = '../../bank.sqlite'; // Assuming the database path is correct
+$dbPath = __DIR__ . '/members/bank.sqlite'; // Assuming the database path is correct
 $bankDatabase = new Bank($dbPath);
 
 // Extract POST data for transaction creation
@@ -19,14 +19,14 @@ if (empty($date) || empty($vender)) {
     exit;
 }
 // Proceed with transaction creation if validation passes
-$result = $bankDatabase->addTransaction($date, $vender, $spending, $deposit, $budget);
+$result = $bankDatabase->addTransaction($date, $vender, $spending, $deposit);
 
 if ($result) {
     echo "<p>Transaction successfully added.</p>";
-    echo "<a href='/'>View Transactions</a>"; // Adjust as per your directory structure
+    echo "<a href='../../members/user_screen.php'>View Transactions</a>"; // Adjust as per your directory structure
 } else {
     echo "<p>Failed to add the transaction. Please check the log for details.</p>";
-    echo "<a href='/'>Try Again</a>"; // Adjust the href as per your directory structure
+    echo "<a href='../../members/user_screen.php'>Try Again</a>"; // Adjust the href as per your directory structure
 }
 
 ?>
