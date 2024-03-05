@@ -6,10 +6,11 @@ require_once 'create_db.php';
 $db = createDatabase();
 
 // Query to fetch all records from the transactions table
-$transactionsResult = $db->query("SELECT date, vender, spending, deposit, budget, category FROM transactions");
+$transactionsResult = $db->query("SELECT id, date, vender, spending, deposit, budget, category FROM transactions
+");
 
 // Query to fetch all records from the buckets table
-$bucketsResult = $db->query("SELECT category, vender FROM buckets");
+$bucketsResult = $db->query("SELECT id, category, vender FROM buckets");
 
 // Add Report button/link here
 echo "<div style='text-align: center; margin-top: 20px;'>";
@@ -26,16 +27,19 @@ echo "<tr><th>Date</th><th>Vender</th><th>Spending</th><th>Deposit</th><th>Budge
 // Loop through the transactions result and display each row in the table
 while ($row = $transactionsResult->fetchArray(SQLITE3_ASSOC)) {
     echo "<tr>";
-    echo "<td>" . htmlspecialchars($row['date']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['vender']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['spending']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['deposit']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['budget']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['category']) . "</td>";
-    echo "<td><a>Edit</a></td>";
-    echo "<td><a>Delete</a></td>";
+    echo "<td>" . htmlspecialchars($row['date'] ?? '') . "</td>";
+    echo "<td>" . htmlspecialchars($row['vender'] ?? '') . "</td>";
+    // Check if spending is numeric and not null before formatting
+    echo "<td>" . (is_numeric($row['spending']) ? htmlspecialchars(number_format((float)$row['spending'], 2)) : '') . "</td>";
+    // Check if deposit is numeric and not null before formatting
+    echo "<td>" . (is_numeric($row['deposit']) ? htmlspecialchars(number_format((float)$row['deposit'], 2)) : '') . "</td>";
+    echo "<td>" . htmlspecialchars($row['budget'] ?? '') . "</td>";
+    echo "<td>" . htmlspecialchars($row['category'] ?? '') . "</td>";
+    echo "<td><a href='/CRUD/update/update.php?id=" . htmlspecialchars($row['id']) . "'>Edit</a></td>";
+    echo "<td><a href='/CRUD/delete/process_transaction_delete.php?id=" . htmlspecialchars($row['id']) . "' onclick=\"return confirm('Are you sure?')\">Delete</a></td>";
     echo "</tr>";
 }
+
 
 echo "</table>";
 echo "</div>"; // Close container for the transaction table
@@ -51,8 +55,8 @@ while ($row = $bucketsResult->fetchArray(SQLITE3_ASSOC)) {
     echo "<tr>";
     echo "<td>" . htmlspecialchars($row['category']) . "</td>";
     echo "<td>" . htmlspecialchars($row['vender']) . "</td>";
-    echo "<td><a>Edit</a></td>";
-    echo "<td><a>Delete</a></td>";
+    echo "<td><a href='/CRUD/update/updateBucket.php?id=" . htmlspecialchars($row['id']) . "'>Edit</a></td>";
+    echo "<td><a href='/CRUD/delete/process_buckets_delete.php?id=" . htmlspecialchars($row['id']) . "' onclick=\"return confirm('Are you sure?')\">Delete</a></td>";
     echo "</tr>";
 }
 echo "</table>";
