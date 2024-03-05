@@ -13,7 +13,6 @@ $dbPath = 'bank.sqlite';
 $username = $password = "";
 $username_err = $password_err = $login_err = "";
 
-
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty(trim($_POST["username"]))){
         $username_err = "Please enter username.";
@@ -31,23 +30,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $bank = new Bank($dbPath);
 
         $result = $bank->authenticateUser($username, $password);
-
+    
         if ($result === true) {
             session_start();
             $_SESSION["loggedin"] = true;
             $_SESSION["username"] = $username;
-
-            // check for permissions- verified user
-            if ($bank->$verifyUser($username)) {
-                $_SESSION["verified"] = true;
-                // Redirect user to welcome page
-                header("Location: ../members/welcome.php");
-                exit;
-            } else {
-                $_SESSION["verified"] = false;
-                // Redirect user to home page
-                header("Location: index.php");
-            }
         } else {
             $login_err = $result;
         }

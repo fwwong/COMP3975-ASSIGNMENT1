@@ -51,7 +51,7 @@ class Bank{
         }
     
         $row = $result->fetchArray(SQLITE3_ASSOC);
-    
+
         if ($row) {
             // Verify hashed password
             if (password_verify($password, $row['password'])) {
@@ -59,12 +59,16 @@ class Bank{
                 $_SESSION["loggedin"] = true;
                 $_SESSION["id"] = $row['id'];
                 $_SESSION["username"] = $row['username'];
-                header("location: ../members/welcome.php");
+                // check authentication
+                header("Location: ../members/welcome.php");
                 exit;
             } else {
+
                 return "Invalid username or password.";
             }
         } else {
+            echo $password;
+            echo $row['password'];
             return "Invalid username or password.";
         }
     
@@ -72,6 +76,28 @@ class Bank{
         $conn->close();
     }
     
+    //check for verify user
+    public function isVerified($username) {
+        $conn = new SQLite3($this->dbPath);
+
+        $sql = "SELECT verified FROM users WHERE username = ?";
+        $stmt = $conn->prepare($sql);
+    
+        if (!$stmt) {
+            return false;
+        }
+    
+        $stmt->bindValue(1, $username, SQLITE3_TEXT);
+        $result = $stmt->execute();
+    
+        if (!$result) {
+            return false;
+        }
+    
+        $row = $result->fetchArray(SQLITE3_ASSOC);
+    
+        return $row && $row['verified'] == '1';
+    }
 
     // Add a transaction
     public function addTransaction($date, $vender, $spending, $deposit, $budget, $category) {
