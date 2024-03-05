@@ -17,23 +17,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $errors = [];
     if (empty($username) || empty($password) || empty($confirm_password) || empty($first_name) || empty($last_name)) {
-        $errors[] = "All fields are required.";
+        $errors[] = "<div class='alert alert-danger'>All fields are required.</div>";
     }
     if ($password !== $confirm_password) {
-        $errors[] = "Passwords do not match.";
+        $errors[] = "<div class='alert alert-danger'>Passwords do not match.</div>";
     }
+
+    // username must contain @ . somewhere
+    if (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "<div class='alert alert-danger'>Invalid email address.</div>";
+    }
+
+    // password must contains at least 1 capital letter, 1 number, and 1 special character min 4 characters long
+    if (strlen($password) < 4) {
+        $errors[] = "<div class='alert alert-danger'>Password must be at least 4 characters long.</div>";
+    }
+    if (!preg_match("/[A-Z]/", $password) || !preg_match("/[0-9]/", $password) || !preg_match("/[^a-zA-Z0-9]/", $password)) {
+        $errors[] = "<div class='alert alert-danger'>Password must contain at least 1 capital letter, 1 number, and 1 special character.</div>";
+    }
+
 
     if (empty($errors)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        if ($bank->addUser($username, $hashed_password, $first_name, $last_name)) {
-            header("Location: ../index.php");
+        if ($bank->checkUsernameExists($username)) {
+            $errors[] = "<div class='alert alert-danger'>Username already exists.</div>";
         } else {
-            echo "<div class='alert alert-danger'>User already exist.</div>";
+            if ($bank->addUser($username, $hashed_password, $first_name, $last_name)) {
+                header("Location: ../index.php");
+                exit();
+            } else {
+                $errors[] = "<div class='alert alert-danger'>Failed to register user.</div>";
+            }
         }
-    } else {
-        foreach ($errors as $error) {
-            echo $error . "<br>";
-        }
+    }
+
+    // Output errors
+    foreach ($errors as $error) {
+        echo $error . "<br>";
     }
 }
 ?>
