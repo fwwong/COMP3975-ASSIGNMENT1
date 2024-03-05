@@ -59,7 +59,7 @@ class Bank{
                 $_SESSION["loggedin"] = true;
                 $_SESSION["id"] = $row['id'];
                 $_SESSION["username"] = $row['username'];
-                header("location: welcome.php");
+                header("location: ../members/welcome.php");
                 exit;
             } else {
                 return "Invalid username or password.";

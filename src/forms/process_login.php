@@ -36,10 +36,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             session_start();
             $_SESSION["loggedin"] = true;
             $_SESSION["username"] = $username;
-            
-            // Redirect user to welcome page
-            header("Location: ../members/welcome.php");
-            exit;
+
+            // check for permissions- verified user
+            if ($bank->$verifyUser($username)) {
+                $_SESSION["verified"] = true;
+                // Redirect user to welcome page
+                header("Location: ../members/welcome.php");
+                exit;
+            } else {
+                $_SESSION["verified"] = false;
+                // Redirect user to home page
+                header("Location: index.php");
+            }
         } else {
             $login_err = $result;
         }

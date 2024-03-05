@@ -11,4 +11,15 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 } ?>
 
 <p>Welcome! you are now in the system</p>
+<!-- log out button -->
+<div class="container">
+    <a href="../index.php" class="btn btn-danger">Sign Out of Your Account</a>
+    <!-- end session  --> 
+    <?php
+    // Unset all of the session variables
+    $_SESSION = array();
+    // Destroy the session.
+    session_destroy();
+    ?>
+</div>
 <?php include("../include/_footer.php") ?>
