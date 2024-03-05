@@ -6,6 +6,29 @@ class Bank{
         $this->dbPath = $dbPath;
     }
 
+
+    // Verify user account
+    public function verifyUser($userId) {
+        $conn = new SQLite3($this->dbPath);
+
+        $sql = "UPDATE users SET verified = 1 WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(1, $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
+
+        if ($result) {
+            $conn->close();
+            return true;
+        } else {
+            error_log('SQLite execute() failed: ' . $conn->lastErrorMsg());
+            $conn->close();
+            return false;
+        }
+    }
+
+
+
     // Get all users from the database
     public function getUsers() {
         $conn = new SQLite3($this->dbPath);
