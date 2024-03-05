@@ -17,7 +17,6 @@ if (strlen($Name) > 60) {
     echo "<a href='http://localhost:7777/crud/create/create.php'>Go Back</a>";
     exit;
 }
-
 // Proceed with user creation if validation passes
 // Assuming createUser method has been adjusted to not require ArtistId or dbPath as parameters
 // $result = $artist->createUser($Name);
