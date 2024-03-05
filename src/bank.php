@@ -5,7 +5,7 @@ class Bank{
     public function __construct($dbPath) {
         $this->dbPath = $dbPath;
     }
-    
+    // add user to the database
     public function addUser($username, $password, $first_name, $last_name) {
         $conn = new SQLite3($this->dbPath);
     
@@ -30,6 +30,46 @@ class Bank{
         }
         $conn->close();
         return true;
+    }
+    
+
+    public function authenticateUser($username, $password) {
+        $conn = new SQLite3($this->dbPath);
+    
+        $sql = "SELECT id, username, password FROM users WHERE username = ? AND verified = '1'";
+        $stmt = $conn->prepare($sql);
+    
+        if (!$stmt) {
+            return "Oops! Failed to prepare SQL statement.";
+        }
+    
+        $stmt->bindValue(1, $username, SQLITE3_TEXT);
+        $result = $stmt->execute();
+    
+        if (!$result) {
+            return "Oops! Failed to execute SQL statement.";
+        }
+    
+        $row = $result->fetchArray(SQLITE3_ASSOC);
+    
+        if ($row) {
+            // Verify hashed password
+            if (password_verify($password, $row['password'])) {
+                session_start();
+                $_SESSION["loggedin"] = true;
+                $_SESSION["id"] = $row['id'];
+                $_SESSION["username"] = $row['username'];
+                header("location: welcome.php");
+                exit;
+            } else {
+                return "Invalid username or password.";
+            }
+        } else {
+            return "Invalid username or password.";
+        }
+    
+        $stmt->close();
+        $conn->close();
     }
     
 

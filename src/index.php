@@ -2,7 +2,6 @@
 <?php include("include/_database.php") ?> 
 <?php include("include/_header.php") ?>
 
-
 <div class="container row">
     <div class="card col-8 p-5">
     <?php include("forms/login_form.php") ?>

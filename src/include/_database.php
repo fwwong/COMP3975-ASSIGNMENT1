@@ -29,7 +29,8 @@ if ($result) {
     if ($adminUserCount == 0) {
         // Insert admin user if it doesn't exist
         $adminPassword = "P@\$\$w0rd"; // Using \$ to escape $ character
-        $adminUser = "INSERT INTO users (username, password, first_name, last_name, account_type, verified) VALUES ('aa@aa.aa', '$adminPassword', 'admin', 'admin', 'admin', 1)";
+        $hashedPassword = password_hash($adminPassword, PASSWORD_DEFAULT);
+        $adminUser = "INSERT INTO users (username, password, first_name, last_name, account_type, verified) VALUES ('aa@aa.aa', '$hashedPassword', 'admin', 'admin', 'admin', 1)";
         if ($db->exec($adminUser) === false) {
             // Handle insertion error
             echo "Error inserting admin user: " . $db->lastErrorMsg();
