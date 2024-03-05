@@ -6,7 +6,7 @@ session_start();
 <a href="home.php" class="btn btn-primary">Back</a>
 <div class="container text-center">
     <h1>Adminstration: Vertification User Dashboard</h1>
-    <p>Manage Users verification: How to use:</p>
+    <h2><b>HOW TO USE</b></h2> 
     <p> 1. Click on the verify button to verify the user: <b>0</b> is not vertified; <b>1</b> is verified <br>
      2. Once the user is verified, the user can log in and access the system.</p>
     <!-- display all user in the database  -->
