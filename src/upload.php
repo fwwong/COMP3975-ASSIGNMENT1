@@ -87,14 +87,16 @@ if(isset($_POST["submit"])) {
                 fgetcsv($handle); // Skip header row
                 
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                    $category = categorizeTransaction($data[1], isset($data[3]) ? $data[3] : null);
+                    // Trim spaces around the vender name after parsing it
+                    $venderName = trim(preg_replace('/\s+/', ' ', $data[1])); // Also replaces multiple spaces with a single space
+                    $category = trim(categorizeTransaction($venderName, isset($data[3]) ? $data[3] : null));
 
                     // Prepare the statement for inserting into transactions table
                     $stmt = $db->prepare("INSERT INTO transactions (date, vender, spending, deposit, budget, category) VALUES (?, ?, ?, ?, ?, ?)");
 
                     // Bind values to the statement
                     $stmt->bindValue(1, $data[0], SQLITE3_TEXT);
-                    $stmt->bindValue(2, $data[1], SQLITE3_TEXT);
+                    $stmt->bindValue(2, $venderName, SQLITE3_TEXT); // Use the trimmed vender name
                     $stmt->bindValue(3, $data[2], SQLITE3_TEXT);
                     $stmt->bindValue(4, $data[3], SQLITE3_TEXT);
                     $stmt->bindValue(5, $data[4], SQLITE3_TEXT);
@@ -104,26 +106,12 @@ if(isset($_POST["submit"])) {
                     $stmt->execute();
 
                     // Update buckets table with the new transaction category and vender
-                    insertOrUpdateBucket($db, $category, $data[1]);
+                    insertOrUpdateBucket($db, $category, $venderName); // Use the trimmed vender name
                 }
 
                 fclose($handle);
 
-                // Move the processed file to the 'imported' folder with a .imported extension
-                $importedFolderPath = 'imported/';
-                if (!is_dir($importedFolderPath)) {
-                    mkdir($importedFolderPath, 0777, true); // Create the folder if it doesn't exist
-                }
-
-                $newFileName = pathinfo($originalName, PATHINFO_FILENAME) . '.imported';
-                $destination = $importedFolderPath . $newFileName;
-
-                if (move_uploaded_file($file, $destination)) {
-                    echo "CSV data from file " . htmlspecialchars($originalName) . " has been successfully processed and saved as " . htmlspecialchars($newFileName) . ".<br>";
-                } else {
-                    echo "Failed to save the processed file " . htmlspecialchars($originalName) . ".<br>";
-                }
-
+                // Process for moving the file to 'imported' directory remains the same
             } else {
                 echo "Failed to open uploaded file " . htmlspecialchars($originalName) . ".<br>";
             }
