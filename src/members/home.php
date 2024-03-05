@@ -14,13 +14,13 @@ session_start();
     </div>
     <p>What would you like to do today?</p>
     <div class="row">
-        <!-- First card -->
+        <!-- First card - Always display -->
         <div class="col-md-6 mb-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Transaction</h5>
+                    <h5 class="card-title">Transactions</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Upload CSV file and Create</h6>
-                    <a href="user_screen.php" class="btn btn-primary">Transactions</a>
+                    <a href="/user_screen.php" class="btn btn-primary">Transactions</a>
                 </div>
             </div>
         </div>
