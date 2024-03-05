@@ -17,6 +17,16 @@ class Bank{
             return false;
         }
         
+        // if username exist return false
+        $checkStmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+        $checkStmt->bindValue(1, $username, SQLITE3_TEXT);
+        $result = $checkStmt->execute();
+        if ($result->fetchArray()) {
+            return false;
+        }
+        else{
+            $checkStmt->close();
+        }
         $stmt->bindValue(1, $username, SQLITE3_TEXT);
         $stmt->bindValue(2, $password, SQLITE3_TEXT);
         $stmt->bindValue(3, $first_name, SQLITE3_TEXT);
@@ -32,11 +42,11 @@ class Bank{
         return true;
     }
     
-
+    //authenticate user
     public function authenticateUser($username, $password) {
         $conn = new SQLite3($this->dbPath);
     
-        $sql = "SELECT id, username, password FROM users WHERE username = ? AND verified = '1'";
+        $sql = "SELECT id, username, password, verified FROM users WHERE username = ? AND verified = '1'";
         $stmt = $conn->prepare($sql);
     
         if (!$stmt) {
@@ -51,24 +61,25 @@ class Bank{
         }
     
         $row = $result->fetchArray(SQLITE3_ASSOC);
-
+    
         if ($row) {
             // Verify hashed password
             if (password_verify($password, $row['password'])) {
-                session_start();
-                $_SESSION["loggedin"] = true;
-                $_SESSION["id"] = $row['id'];
-                $_SESSION["username"] = $row['username'];
-                // check authentication
-                header("Location: ../members/welcome.php");
-                exit;
+                // Check if the 'verified' column exists in the result
+                if (array_key_exists('verified', $row)) {
+                    // Check if the user is verified
+                    if ($row['verified'] == 1) {
+                        return true;
+                    } else {
+                        return "Your account is not verified.";
+                    }
+                } else {
+                    return "Verification status not available.";
+                }
             } else {
-
                 return "Invalid username or password.";
             }
         } else {
-            echo $password;
-            echo $row['password'];
             return "Invalid username or password.";
         }
     
@@ -76,28 +87,6 @@ class Bank{
         $conn->close();
     }
     
-    //check for verify user
-    public function isVerified($username) {
-        $conn = new SQLite3($this->dbPath);
-
-        $sql = "SELECT verified FROM users WHERE username = ?";
-        $stmt = $conn->prepare($sql);
-    
-        if (!$stmt) {
-            return false;
-        }
-    
-        $stmt->bindValue(1, $username, SQLITE3_TEXT);
-        $result = $stmt->execute();
-    
-        if (!$result) {
-            return false;
-        }
-    
-        $row = $result->fetchArray(SQLITE3_ASSOC);
-    
-        return $row && $row['verified'] == '1';
-    }
 
     // Add a transaction
     public function addTransaction($date, $vender, $spending, $deposit, $budget, $category) {

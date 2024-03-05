@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($bank->addUser($username, $hashed_password, $first_name, $last_name)) {
             header("Location: ../index.php");
         } else {
-            echo "Error adding user.";
+            echo "<div class='alert alert-danger'>User already exist.</div>";
         }
     } else {
         foreach ($errors as $error) {
