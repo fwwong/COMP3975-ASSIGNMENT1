@@ -1,7 +1,7 @@
 <?php
 include("../../bank.php");
 
-$dbPath = '../../bank.sqlite';
+$dbPath = __DIR__ . '/members/bank.sqlite';
 
 // Instantiate the Artist class with the database path
 $artist = new Bank($dbPath);

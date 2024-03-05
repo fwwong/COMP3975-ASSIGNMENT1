@@ -3,7 +3,7 @@ class Bank{
     private $dbPath;
     
     public function __construct($dbPath) {
-        $this->dbPath = $dbPath;
+        $this->dbPath = __DIR__ . '/members/bank.sqlite';;
     }
 
     //Check username exists in the database
@@ -153,7 +153,7 @@ class Bank{
     
 
     // Add a transaction
-    public function addTransaction($date, $vender, $spending, $deposit, $budget, $category) {
+    public function addTransaction($date, $vender, $spending, $deposit) {
         $conn = new SQLite3($this->dbPath);
         $category = $this->getCategoryFromBuckets($vender);
 
@@ -222,8 +222,8 @@ class Bank{
         }
 
         // Calculate the difference in spending and deposit to adjust the budget
-        $spendingDiff = $spending - $currentDetails['spending'];
-        $depositDiff = $deposit - $currentDetails['deposit'];
+        $spendingDiff = floatval($spending) - ($currentDetails['spending'] ?? 0);
+        $depositDiff = floatval($deposit) - ($currentDetails['deposit'] ?? 0);
 
         // Calculate the new budget
         $newBudget = $currentDetails['budget'] - $spendingDiff + $depositDiff;

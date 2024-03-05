@@ -1,9 +1,9 @@
 <?php
-// Include the database setup file
-require_once 'create_db.php';
+// // Include the database setup file
+// include 'create_db.php';
 
 // Create database if not exists
-$db = createDatabase();
+$db = new SQLite3(__DIR__ . '/members/bank.sqlite');
 
 // Query to fetch spending per category
 $spendingDataPoints = [['Category', 'Total Spending']];
@@ -43,6 +43,9 @@ $db->close();
         <div>
             <h3>Spending Details</h3>
             <?php echo $spendingHTML; ?>
+        </div>
+        <div>
+             <button onclick="history.back()">Go Back</button>
         </div>
     </div>
 </body>

@@ -1,7 +1,7 @@
 <?php
 // Function to create SQLite database if it doesn't exist
 function createDatabase() {
-    $dbPath = './bank.sqlite';
+    $dbPath = __DIR__ . '/members/bank.sqlite';
 
     // Open or create the SQLite database
     $conn = new SQLite3($dbPath);

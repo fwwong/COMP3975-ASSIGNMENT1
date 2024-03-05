@@ -1,7 +1,7 @@
 <?php
 include("../../bank.php"); // Ensure this path correctly points to your Bank class definition
 
-$dbPath = '../../bank.sqlite'; // Confirm the database path is correct
+$dbPath = __DIR__ . '/members/bank.sqlite'; // Confirm the database path is correct
 
 // Instantiate the Bank class with the database path
 $bankDatabase = new Bank($dbPath);
@@ -24,9 +24,9 @@ $result = $bankDatabase->upsertBucket($category, $vender);
 
 if ($result) {
     echo "<p>Bucket successfully managed.</p>";
-    echo "<a href='/'>View Buckets</a>"; // Adjust this URL to where you list or manage buckets
+    echo "<a href='../../members/user_screen.php'>View Buckets</a>"; // Adjust this URL to where you list or manage buckets
 } else {
     echo "<p>Failed to manage the bucket. Please check the log for details.</p>";
-    echo "<a href='/'>Try Again</a>"; // Adjust this URL to your retry logic or bucket management page
+    echo "<a href='../../members/user_screen.php'>Try Again</a>"; // Adjust this URL to your retry logic or bucket management page
 }
 ?>

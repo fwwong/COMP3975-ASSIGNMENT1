@@ -1,6 +1,6 @@
 <?php
 // Include the database setup file
-require_once 'create_db.php';
+include 'create_db.php';
 $db = createDatabase();
 
 // Create 'users' table if not exists
