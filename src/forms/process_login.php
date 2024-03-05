@@ -21,20 +21,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($username_err) && empty($password_err)) {
         $bank = new Bank($dbPath);
 
-        $result = $bank->authenticateUser($username, $password); // returns a list of users details
-        var_dump($result);
-
-        if ($result) {
-            session_start();
-            $_SESSION["loggedin"] = true;
-            $_SESSION["username"] = $username;
-            $_SESSION["first_name"] = $result["first_name"];
-            $_SESSION["last_name"] = $result["last_name"];
-            $_SESSION["account_type"] = $result["account_type"];
-            header("Location: ../members/home.php");
-            exit();
+        // Check if username exists in the database
+        if (!$bank->checkUsernameExists($username)) {
+            $login_err = "User does not exist. Please create an account.";
         } else {
-            $login_err = "Invalid username or password.";
+            // Authenticate the user
+            $result = $bank->authenticateUser($username, $password); 
+            
+            if ($result) {
+                // Check if the user account is verified by the admin
+                $user = $bank->getUser($username);
+                if ($user["verified"] == 0) {
+                    $login_err = "User is not verified. Please wait for admin to verify your account.";
+                } else {
+                    // Start session and set session variables
+                    session_start();
+                    $_SESSION["loggedin"] = true;
+                    $_SESSION["username"] = $username;
+                    $_SESSION["first_name"] = $result["first_name"];
+                    $_SESSION["last_name"] = $result["last_name"];
+                    $_SESSION["account_type"] = $result["account_type"];
+                    header("Location: ../members/home.php");
+                    exit();
+                }
+            } else {
+                $login_err = "Incorrect password.";
+            }
         }
     }
 }

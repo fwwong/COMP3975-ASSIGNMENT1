@@ -5,6 +5,7 @@ session_start();
 ?>
 
 <?php include("../include/_header.php") ?>
+<?php include("../include/_navbar.php") ?>
 
 <div class="container">
     <!-- welcome to the user by their first name -->

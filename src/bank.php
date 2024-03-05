@@ -6,6 +6,17 @@ class Bank{
         $this->dbPath = $dbPath;
     }
 
+    //Check username exists in the database
+    public function checkUsernameExists($username) {
+        $conn = new SQLite3($this->dbPath);
+        $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+        $stmt->bindValue(1, $username, SQLITE3_TEXT);
+        $result = $stmt->execute();
+        $row = $result->fetchArray();
+        $conn->close();
+        return $row ? true : false;
+    }
+
 
     // Verify user account
     public function verifyUser($userId) {
@@ -27,7 +38,16 @@ class Bank{
         }
     }
 
-
+    // Get user
+    public function getUser($username) {
+        $conn = new SQLite3($this->dbPath);
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->bindValue(1, $username, SQLITE3_TEXT);
+        $result = $stmt->execute();
+        $user = $result->fetchArray(SQLITE3_ASSOC);
+        $conn->close();
+        return $user;
+    }
 
     // Get all users from the database
     public function getUsers() {
