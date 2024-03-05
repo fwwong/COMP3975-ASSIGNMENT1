@@ -9,4 +9,4 @@
 </head>
 <body>
 <div class="container m-5">
-    <?php include("_navbar.php") ?>
+

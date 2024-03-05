@@ -5,6 +5,20 @@ class Bank{
     public function __construct($dbPath) {
         $this->dbPath = $dbPath;
     }
+
+    // Get all users from the database
+    public function getUsers() {
+        $conn = new SQLite3($this->dbPath);
+        $sql = "SELECT * FROM users";
+        $result = $conn->query($sql);
+        $users = [];
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $users[] = $row;
+        }
+        $conn->close();
+        return $users;
+    }
+
     // add user to the database
     public function addUser($username, $password, $first_name, $last_name) {
         $conn = new SQLite3($this->dbPath);
@@ -42,11 +56,12 @@ class Bank{
         return true;
     }
     
+
     //authenticate user
     public function authenticateUser($username, $password) {
         $conn = new SQLite3($this->dbPath);
     
-        $sql = "SELECT id, username, password, verified FROM users WHERE username = ? AND verified = '1'";
+        $sql = "SELECT * FROM users WHERE username = ? AND verified = 1";
         $stmt = $conn->prepare($sql);
     
         if (!$stmt) {
@@ -69,7 +84,13 @@ class Bank{
                 if (array_key_exists('verified', $row)) {
                     // Check if the user is verified
                     if ($row['verified'] == 1) {
-                        return true;
+                        return
+                            [
+                                "username" => $row['username'],
+                                "first_name" => $row['first_name'],
+                                "last_name" => $row['last_name'],
+                                "account_type" => $row['account_type']
+                            ];
                     } else {
                         return "Your account is not verified.";
                     }

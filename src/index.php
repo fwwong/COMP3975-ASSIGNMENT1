@@ -1,7 +1,9 @@
 <!-- Main page to direct user to create a new account or login into an existing account -->
 <?php include("include/_database.php") ?> 
 <?php include("include/_header.php") ?>
+<?php include("include/_navbar.php") ?>
 
+<!-- if session still exists this is the home page for the user -->
 <div class="container row">
     <div class="card col-8 p-5">
     <?php include("forms/login_form.php") ?>

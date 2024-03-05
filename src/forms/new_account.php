@@ -1,5 +1,6 @@
 <!-- REGISTER NEW ACCOUNT  -->
 <?php include("../include/_header.php") ?>
+<?php include("../include/_navbar.php") ?>
 <?php include("../forms/process_new_account.php") ?>
 
 <div class="card p-5">
