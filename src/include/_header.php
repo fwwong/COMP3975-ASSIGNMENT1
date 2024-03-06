@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- Header -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COMP3975: ASSIGNMENT 1</title>
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css">
+    <title>Landing Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Optional: Add custom styles here */
+    </style>
 </head>
-<body>
-<div class="container m-5">
-
