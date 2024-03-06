@@ -16,27 +16,24 @@ if (session_status() == PHP_SESSION_NONE) {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="../src/CRUD/Transaction/Read/read_html.php">View Transactions</a>
+                    <a class="nav-link" href="../src/crud/Transaction/Read/read_html.php">View Transactions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../src/Chart/chart_html.php">View Report</a>
+                    <a class="nav-link" href="../src/chart/chart_html.php">View Report</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../src/CRUD/Bucket/Read/read_html.php">Bucket</a>
+                    <a class="nav-link" href="../src/crud/Bucket/Read/read_html.php">Bucket</a>
                 </li>
                 <?php
                 if (isset($_SESSION['user_id']) && isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1) {
                     // Display the admin buttons
                     echo '<li class="nav-item">';
-                    echo '<a class="nav-link" href="../User/admin.php">Admin Panel</a>';
+                    echo '<a class="nav-link" href="../user/admin.php">Admin Panel</a>';
                     echo '</li>';
-                    // echo '<li class="nav-item">';
-                    // echo '<a class="nav-link" href="../src/CRUD/Bucket/Read/read_html.php">Bucket</a>';
-                    // echo '</li>';
                 }
                 ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="../User/logout.php">Logout</a>
+                    <a class="nav-link" href="../user/logout.php">Logout</a>
                 </li>
             </ul>
         </div>
